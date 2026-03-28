@@ -14,7 +14,7 @@ timerDisplay.style.cssText = `
     font-family: monospace;
 `;
 
-// Попытка работы с document
+// Попытка работы с document...
 const clickerStatus = document.querySelector('.clicker__status');
 clickerStatus.insertAdjacentElement('afterend', timerDisplay);
 
