@@ -18,11 +18,6 @@ function updateDisplay() {
     timerElement.textContent = formatTime(totalSeconds);
 }
 
-function redirectToFile() {
-    //Попытка со скачиванием
-    window.location.href = 'https://example.com/prize.zip';
-}
-
 //Обновления таймера
 function updateTimer() {
     totalSeconds--;
