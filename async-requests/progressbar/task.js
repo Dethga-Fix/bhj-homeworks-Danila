@@ -1,26 +1,43 @@
 const form = document.getElementById('form');
 const progress = document.getElementById('progress');
+const fileInput = document.getElementById('file');
 
-form.addEventListener('submit', function(event) {
-    event.preventDefault();
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
 
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', form.action);
+  const file = fileInput.files[0];
+  if (!file) {
+    alert('Пожалуйста, выберите файл для загрузки');
+    return;
+  }
 
-    xhr.upload.onprogress = function(event) {
-        if (event.lengthComputable) {
-            progress.value = event.loaded / event.total;
-        }
-    };
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', form.action);
 
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            alert('Файл успешно загружен');
-        } else {
-            alert('Ошибка при загрузке файла');
-        }
-    };
+  //прогресс загрузки
+  xhr.upload.onprogress = (event) => {
+    if (event.lengthComputable) {
+      progress.value = event.loaded / event.total;
+    }
+  };
 
-    const formData = new FormData(form);
-    xhr.send(formData);
+  //завершение загрузки
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+      alert('Файл успешно загружен');
+      progress.value = 0;
+      form.reset();
+    } else {
+      alert('Ошибка загрузки: ' + xhr.status);
+    }
+  };
+
+  //ошибки
+  xhr.onerror = () => {
+    alert('Произошла ошибка сети при загрузке файла');
+  };
+
+  const formData = new FormData();
+  formData.append('file', file);
+  xhr.send(formData);
 });
