@@ -14,8 +14,8 @@ form.addEventListener('submit', (e) => {
   };
 
   xhr.onload = () => {
-    if (xhr.status === 200) {
-      alert('Файл загружен');
+    if (xhr.status === 200 || xhr.status === 201) {
+      alert('Файл успешно загружен');
       progress.value = 0;
       form.reset();
     } else {
@@ -25,6 +25,5 @@ form.addEventListener('submit', (e) => {
 
   xhr.onerror = () => alert('Ошибка сети');
 
-  const formData = new FormData(form);
-  xhr.send(formData);
+  xhr.send(new FormData(form));
 });
